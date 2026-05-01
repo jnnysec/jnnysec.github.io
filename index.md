@@ -5,8 +5,6 @@ title: AI Agent 安全学习笔记
 
 # 🛡️ AI Agent 安全学习笔记
 
-<small>Web 安全 → AI Agent 安全 · 2026 年 5 月起</small>
-
 ---
 
 ## 📋 文章
