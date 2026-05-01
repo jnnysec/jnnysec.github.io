@@ -38,6 +38,4 @@ title: AI Agent 安全学习笔记
 
 **jnnysec** — 安全工程师，正在从 Web 安全 / 代码审计转向 AI Agent 安全方向。
 
-之前在 Web 安全领域做漏洞挖掘和代码审计，SQL 注入、反序列化、SSRF 那套非常熟。2026 年开始系统学习 AI 安全，发现底层逻辑惊人地相通——Prompt 注入就是 LLM 世界的 SQL 注入，Agent Tool Calling 就是新的命令执行。
-
-当前主攻 Prompt Injection（直接注入与间接注入）、Jailbreak（越狱技术）、Agent 框架审计（Dify / LangChain 等）。博客记录学习笔记和攻防研究，所有内容均为个人理解，欢迎指正交流。
+之前在 Web 安全领域做漏洞挖掘和代码审计，SQL 注入、反序列化、SSRF 那套非常熟。2026 年开始系统学习 AI 安全，发现底层逻辑惊人地相通——Prompt 注入就是 LLM 世界的 SQL 注入，Agent Tool Calling 就是新的命令执行。当前主攻 Prompt Injection（直接注入与间接注入）、Jailbreak（越狱技术）、Agent 框架审计（Dify / LangChain 等）。博客记录学习笔记和攻防研究，所有内容均为个人理解，欢迎指正交流。
