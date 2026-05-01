@@ -1,9 +1,3 @@
----
-title: 从「预测下一个词」到「攻击下一个词」——一个安全工程师看 Karpathy 的 LLM 入门课
-tags: [LLM安全]
-new: true
----
-
 # 一个安全工程师看 Karpathy 的 LLM 入门课：从「预测下一个词」到「攻击下一个词」
 
 > 原文：Andrej Karpathy — *Intro to Large Language Models* (2023.11)  
