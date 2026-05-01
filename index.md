@@ -20,17 +20,6 @@ title: AI Agent 安全学习笔记
   {% endfor %}
 </ul>
 
----
-
-## 🏷️ 话题分类
-
-<div style="display:flex;flex-wrap:wrap;gap:11px; margin:12px 0;">
-  <span style="background:#f2f7fa;color:#2563eb;padding:6px 16px;border-radius:8px;font-size:.98em;font-weight:600;">💉 Prompt Injection</span>
-  <span style="background:#f2f7fa;color:#2563eb;padding:6px 16px;border-radius:8px;font-size:.98em;font-weight:600;">🔓 Jailbreak</span>
-  <span style="background:#f2f7fa;color:#2563eb;padding:6px 16px;border-radius:8px;font-size:.98em;font-weight:600;">🤖 Agent Security</span>
-  <span style="background:#f2f7fa;color:#2563eb;padding:6px 16px;border-radius:8px;font-size:.98em;font-weight:600;">🗄️ RAG / Memory</span>
-  <span style="background:#f2f7fa;color:#2563eb;padding:6px 16px;border-radius:8px;font-size:.98em;font-weight:600;">📦 Supply Chain</span>
-</div>
 
 ---
 
