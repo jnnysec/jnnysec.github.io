@@ -1,0 +1,6 @@
+title: jnnysec — AI Agent Security
+description: Web安全 → AI Agent安全主攻Prompt Injection、Jailbreak、Agent架构审计
+author: jnnysec
+markdown: kramdown
+theme: null
+exclude: ["README.md"]
