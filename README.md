@@ -474,16 +474,16 @@
           <span class="cursor"></span>
         </div>
         <div class="hero-stats" aria-label="博客统计">
-          <div class="stat" aria-label="18 篇笔记">
-            <div class="stat-num">18</div>
-            <div class="stat-label">NOTES</div>
+          <div class="stat" aria-label="1 篇文章">
+            <div class="stat-num">1</div>
+            <div class="stat-label">ARTICLE</div>
           </div>
           <div class="stat" aria-label="5 个主题">
             <div class="stat-num">5</div>
             <div class="stat-label">TOPICS</div>
           </div>
-          <div class="stat" aria-label="2025 年开始">
-            <div class="stat-num">2025</div>
+          <div class="stat" aria-label="2026 年开始">
+            <div class="stat-num">2026</div>
             <div class="stat-label">SINCE</div>
           </div>
         </div>
@@ -493,99 +493,26 @@
       <div class="section-divider" data-label="LATEST_NOTES" aria-hidden="true"></div>
 
       <section aria-label="最新笔记">
-        <ol class="posts-list" style="list-style:none;">
+                <ol class="posts-list" style="list-style:none;">
 
           <li>
+            <a href="/articles/llm-intro-from-security-perspective" style="text-decoration:none;color:inherit;">
             <article class="post-item">
               <div>
                 <div class="post-meta">
-                  <span class="tag tag-red">THREAT_MODEL</span>
+                  <span class="tag tag-red">LLM_SECURITY</span>
+                  <span class="badge-new">NEW</span>
                 </div>
                 <h2 class="post-title">
-                  Prompt Injection in Multi-Agent Systems：从理论到实战
-                  <span class="badge-new">NEW</span>
+                  从「预测下一个词」到「攻击下一个词」——一个安全工程师看 Karpathy 的 LLM 入门课
                 </h2>
                 <p class="post-excerpt">
-                  分析 orchestrator → sub-agent 调用链中 prompt injection 的传播路径，以及 tool poisoning 场景下的利用方式。
+                  基于 Karpathy 经典演讲的安全视角解读：LLM 的训练两阶段如何产生攻击面、Prompt Injection / Jailbreak / 数据投毒三类核心攻击、LLM OS 类比作为安全审计框架、Web 安全到 LLM 安全的技能平移地图。
                 </p>
               </div>
-              <time class="post-date" datetime="2025-04-28">2025-04-28</time>
+              <time class="post-date" datetime="2026-05-01">2026-05-01</time>
             </article>
-          </li>
-
-          <li>
-            <article class="post-item">
-              <div>
-                <div class="post-meta">
-                  <span class="tag tag-blue">NOTES</span>
-                </div>
-                <h2 class="post-title">MCP 安全模型笔记：信任边界与权限设计</h2>
-                <p class="post-excerpt">
-                  Model Context Protocol 的工具调用机制如何被滥用，host/client/server 三层信任模型的攻击面梳理。
-                </p>
-              </div>
-              <time class="post-date" datetime="2025-04-15">2025-04-15</time>
-            </article>
-          </li>
-
-          <li>
-            <article class="post-item">
-              <div>
-                <div class="post-meta">
-                  <span class="tag tag-green">RESEARCH</span>
-                </div>
-                <h2 class="post-title">RAG 管道中的数据投毒：间接攻击向量</h2>
-                <p class="post-excerpt">
-                  通过污染知识库影响 LLM 输出的攻击方式，以及检索时的安全过滤策略研究。
-                </p>
-              </div>
-              <time class="post-date" datetime="2025-04-02">2025-04-02</time>
-            </article>
-          </li>
-
-          <li>
-            <article class="post-item">
-              <div>
-                <div class="post-meta">
-                  <span class="tag tag-gray">BASICS</span>
-                </div>
-                <h2 class="post-title">LLM 安全基础：越狱技术分类与防御思路</h2>
-                <p class="post-excerpt">
-                  整理常见越狱方式（角色扮演、编码绕过、多轮对话攻击），以及 system prompt 防护的最佳实践。
-                </p>
-              </div>
-              <time class="post-date" datetime="2025-03-20">2025-03-20</time>
-            </article>
-          </li>
-
-          <li>
-            <article class="post-item">
-              <div>
-                <div class="post-meta">
-                  <span class="tag tag-blue">NOTES</span>
-                </div>
-                <h2 class="post-title">Agent 记忆机制的安全隐患：持久化与泄露风险</h2>
-                <p class="post-excerpt">
-                  Long-term memory 存储中的敏感信息泄露，以及跨会话攻击的可能性分析。
-                </p>
-              </div>
-              <time class="post-date" datetime="2025-03-10">2025-03-10</time>
-            </article>
-          </li>
-
-          <li>
-            <article class="post-item">
-              <div>
-                <div class="post-meta">
-                  <span class="tag tag-purple">TOOLS</span>
-                </div>
-                <h2 class="post-title">AgentBench 评测框架在安全场景中的使用</h2>
-                <p class="post-excerpt">
-                  如何借助 AgentBench 构造对抗性任务，系统评估 Agent 在安全敏感场景下的行为边界。
-                </p>
-              </div>
-              <time class="post-date" datetime="2025-02-28">2025-02-28</time>
-            </article>
+            </a>
           </li>
 
         </ol>
@@ -594,31 +521,31 @@
       <!-- TOPICS -->
       <div class="section-label" aria-hidden="true">TOPICS</div>
       <section aria-label="话题分类">
-        <div class="topics-grid">
+                <div class="topics-grid">
           <div class="topic-card" role="link" tabindex="0">
             <span class="topic-icon" style="color:var(--accent3);">&#9670;</span>
             <div class="topic-name">Prompt Injection</div>
-            <div class="topic-count">6 notes</div>
+            <div class="topic-count">coming soon</div>
           </div>
           <div class="topic-card" role="link" tabindex="0">
             <span class="topic-icon" style="color:var(--accent2);">&#9632;</span>
-            <div class="topic-name">MCP Security</div>
-            <div class="topic-count">4 notes</div>
+            <div class="topic-name">Jailbreak</div>
+            <div class="topic-count">coming soon</div>
           </div>
           <div class="topic-card" role="link" tabindex="0">
             <span class="topic-icon" style="color:var(--accent);">&#9650;</span>
-            <div class="topic-name">RAG Safety</div>
-            <div class="topic-count">3 notes</div>
+            <div class="topic-name">Agent Security</div>
+            <div class="topic-count">coming soon</div>
           </div>
           <div class="topic-card" role="link" tabindex="0">
             <span class="topic-icon" style="color:#a78bfa;">&#9679;</span>
-            <div class="topic-name">Agent Arch</div>
-            <div class="topic-count">3 notes</div>
+            <div class="topic-name">RAG / Memory</div>
+            <div class="topic-count">coming soon</div>
           </div>
           <div class="topic-card" role="link" tabindex="0">
             <span class="topic-icon" style="color:#fbbf24;">&#9671;</span>
-            <div class="topic-name">LLM Basics</div>
-            <div class="topic-count">2 notes</div>
+            <div class="topic-name">Supply Chain</div>
+            <div class="topic-count">coming soon</div>
           </div>
         </div>
       </section>
@@ -628,7 +555,7 @@
         <div class="avatar" aria-hidden="true">J</div>
         <div class="about-text">
           <h3>jnnysec</h3>
-          <p>安全研究学习者，专注于 AI Agent 安全领域。记录学习过程中的笔记、实验和思考。内容面向入门到进阶，欢迎交流讨论。</p>
+          <p>Web 安全 / 代码审计背景，转向 AI Agent 安全方向。主攻 Prompt Injection、Jailbreak、Agent 框架审计。这里记录学习笔记和攻防研究。</p>
         </div>
       </section>
 
@@ -642,7 +569,6 @@
       <nav class="footer-right" aria-label="外部链接">
         <a href="https://github.com/jnnysec"  class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="/feed.xml"                    class="footer-link">RSS</a>
-        <a href="https://twitter.com/jnnysec" class="footer-link" target="_blank" rel="noopener noreferrer">Twitter</a>
       </nav>
     </div>
   </footer>
@@ -668,9 +594,7 @@
           .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]+/g, '-')
           .replace(/^-+|-+$/g, '')
           .toLowerCase();
-        // Uncomment when pages exist:
-        // window.location.href = `/notes/${slug}`;
-        console.log('navigate to:', slug);
+        window.location.href = '/articles/llm-intro-from-security-perspective';
       });
       item.setAttribute('tabindex', '0');
       item.addEventListener('keydown', e => {
