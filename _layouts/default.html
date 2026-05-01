@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>{{ site.title }}</title>
+  <link href="https://fonts.googleapis.com/css?family=Inter:500,700&display=swap" rel="stylesheet">
+  <style>
+    html,body { margin:0;padding:0; background:#f8fafc; color:#243047; min-height:100vh;}
+    body { font-family: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+    .wrap { display:flex; max-width:1100px; margin:54px auto 0; box-shadow:0 8px 28px #dde5ef26;}
+    .sidebar {
+      background: #f6f9fd;
+      min-width:250px; max-width:320px; padding:38px 28px 44px 28px;
+      border-right:1px solid #e2e6ea;
+      display:flex; flex-direction:column; align-items:center;
+    }
+    .avatar { width:96px; height:96px; border-radius:24px; margin-bottom:16px;
+      border:3px solid #2563eb33; background:#fff;}
+    .nickname { font-weight:700; font-size:1.22em; margin-bottom:6px; color:#18408e;}
+    .desc { color:#394769; font-size:1em; margin-bottom:18px; text-align:center; line-height:1.5}
+    .sidebar nav {margin-top:18px;}
+    .sidebar nav a { display:block; padding:7px 3px; color:#2563eb; text-decoration:none; font-weight:500;}
+    .sidebar nav a:hover { background:#b7d9ff22;}
+    .contact { margin-top:22px; }
+    .contact a { color:#2563eb; font-weight:600; text-decoration:none; }
+    /* Main */
+    .main { flex:1; padding:44px 50px 50px 50px; background:#fff; min-height:690px;}
+    .footer { color: #a9aab2; font-size:.99em; margin-top:44px; text-align:right; padding-right:5px;}
+    @media(max-width:980px){.wrap{flex-direction:column;}.sidebar,.main{max-width:100vw;}.main{padding:24px 5vw;}}
+    @media(max-width:640px){.sidebar{padding:22px 8vw;}.main{padding:12px 3vw 30px 3vw;}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <img class="avatar" src="https://avatars.githubusercontent.com/u/8467457?v=4" alt="jnnysec">
+      <div class="nickname">{{ site.author }}</div>
+      <div class="desc">Web 安全 → AI Agent 安全<br>主攻 Prompt Injection、Jailbreak、Agent 框架审计</div>
+      <nav>
+        <a href="{{ '/' | relative_url }}">主页</a>
+        <a href="https://github.com/jnnysec" target="_blank">GitHub</a>
+      </nav>
+    </aside>
+    <main class="main">
+      {{ content }}
+      <div class="footer">
+        jnnysec.github.io · 个人学习记录
+      </div>
+    </main>
+  </div>
+</body>
+</html>
