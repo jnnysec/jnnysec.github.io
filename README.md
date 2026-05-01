@@ -198,9 +198,9 @@
       <a href="/"         class="sb-item active"><span class="sb-icon">🏠</span> 主页</a>
       <a href="/notes"    class="sb-item"><span class="sb-icon">📝</span> 学习笔记</a>
       <a href="/notes/prompt-injection" class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> Prompt Injection</a>
-      <a href="/notes/mcp-security"     class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> MCP Security</a>
-      <a href="/notes/rag-safety"       class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> RAG Safety</a>
-      <a href="/notes/agent-arch"       class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> Agent 架构</a>
+      <a href="/notes/jailbreak"        class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> Jailbreak</a>
+      <a href="/notes/agent-security"   class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> Agent Security</a>
+      <a href="/notes/rag-memory"       class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> RAG / Memory</a>
       <a href="/research" class="sb-item"><span class="sb-icon">🔬</span> 研究记录</a>
       <a href="/resources"class="sb-item"><span class="sb-icon">🔗</span> 参考资源</a>
       <a href="/about"    class="sb-item"><span class="sb-icon">👤</span> 关于</a>
@@ -244,11 +244,11 @@
           </div>
           <div class="prop-row">
             <div class="prop-key"><span>📅</span> 创建于</div>
-            <div class="prop-val">2025 年 1 月</div>
+            <div class="prop-val">2026 年 5 月</div>
           </div>
           <div class="prop-row">
             <div class="prop-key"><span>🔄</span> 最近更新</div>
-            <div class="prop-val">2025-04-28</div>
+            <div class="prop-val">2026-05-01</div>
           </div>
           <div class="prop-row">
             <div class="prop-key"><span>🏷️</span> 标签</div>
@@ -260,28 +260,36 @@
           </div>
           <div class="prop-row">
             <div class="prop-key"><span>📊</span> 笔记数</div>
-            <div class="prop-val">18 篇，持续更新</div>
+            <div class="prop-val">1 篇，持续更新</div>
           </div>
         </div>
 
         <div class="callout">
           <span class="callout-icon">💡</span>
           <div class="callout-body">
-            个人学习笔记，专注 <strong>LLM 与 AI Agent</strong> 的安全攻防研究。内容涵盖威胁建模、漏洞分析与防御策略，适合入门到进阶读者，欢迎交流讨论。
+            Web 安全 / 代码审计 → AI Agent 安全。主攻 <strong>Prompt Injection</strong>、<strong>Jailbreak</strong>、<strong>Agent 框架审计</strong>。这里记录学习笔记与攻防研究。
           </div>
         </div>
 
         <h2 class="block-h2"><span class="bh-icon">📋</span> 最新笔记</h2>
         <div class="post-list">
-
-          <a class="post-row" href="/notes/prompt-injection-multi-agent">
+          <a class="post-row" href="/articles/llm-intro-from-security-perspective">
             <div class="post-dot" style="background:#2563eb;"></div>
+            <div class="post-title-text">
+              从「预测下一个词」到「攻击下一个词」——一个安全工程师看 Karpathy 的 LLM 入门课
+              <span class="badge-new">NEW</span>
+            </div>
+            <span class="pill pill-orange">LLM 安全</span>
+            <div class="post-date">2026-05-01</div>
+          </a>
+
+</div>
             <div class="post-title-text">
               Prompt Injection in Multi-Agent Systems：从理论到实战
               <span class="badge-new">NEW</span>
             </div>
             <span class="pill pill-orange">威胁模型</span>
-            <div class="post-date">2025-04-28</div>
+            <div class="post-date">2026-05-01</div>
           </a>
 
           <a class="post-row" href="/notes/mcp-security-model">
@@ -328,50 +336,49 @@
           <a href="/notes/prompt-injection" class="topic-chip">
             <span class="chip-emoji">💉</span>
             <div class="chip-name">Prompt Injection</div>
-            <div class="chip-count">6 篇笔记</div>
+            <div class="chip-count">coming soon</div>
           </a>
-          <a href="/notes/mcp-security" class="topic-chip">
-            <span class="chip-emoji">🔌</span>
-            <div class="chip-name">MCP Security</div>
-            <div class="chip-count">4 篇笔记</div>
+          <a href="/notes/jailbreak" class="topic-chip">
+            <span class="chip-emoji">🔓</span>
+            <div class="chip-name">Jailbreak</div>
+            <div class="chip-count">coming soon</div>
           </a>
-          <a href="/notes/rag-safety" class="topic-chip">
-            <span class="chip-emoji">🗄️</span>
-            <div class="chip-name">RAG Safety</div>
-            <div class="chip-count">3 篇笔记</div>
-          </a>
-          <a href="/notes/agent-arch" class="topic-chip">
+          <a href="/notes/agent-security" class="topic-chip">
             <span class="chip-emoji">🤖</span>
-            <div class="chip-name">Agent 架构</div>
-            <div class="chip-count">3 篇笔记</div>
+            <div class="chip-name">Agent Security</div>
+            <div class="chip-count">coming soon</div>
           </a>
-          <a href="/notes/llm-basics" class="topic-chip">
-            <span class="chip-emoji">📖</span>
-            <div class="chip-name">LLM 基础</div>
-            <div class="chip-count">2 篇笔记</div>
+          <a href="/notes/rag-memory" class="topic-chip">
+            <span class="chip-emoji">🗄️</span>
+            <div class="chip-name">RAG / Memory</div>
+            <div class="chip-count">coming soon</div>
+          </a>
+          <a href="/notes/supply-chain" class="topic-chip">
+            <span class="chip-emoji">📦</span>
+            <div class="chip-name">Supply Chain</div>
+            <div class="chip-count">coming soon</div>
           </a>
         </div>
 
         <div class="block-divider"></div>
 
         <h2 class="block-h2"><span class="bh-icon">👤</span> 关于作者</h2>
-        <p class="text-block">安全研究学习者，专注于 AI Agent 安全领域。记录学习过程中的笔记、实验复现和思考。内容面向入门到进阶，所有笔记均为个人理解，欢迎指正与交流。</p>
+        <p class="text-block">Web 安全 / 代码审计背景，正在转向 AI Agent 安全方向。主攻 Prompt Injection、Jailbreak、Agent 框架审计。这里记录学习笔记与攻防研究。</p>
 
         <div class="about-block">
           <div class="about-avatar">J</div>
           <div>
             <div class="about-name">jnnysec</div>
-            <div class="about-sub">Security Researcher · AI Agent Safety</div>
+            <div class="about-sub">AI Agent Security · Threat Research</div>
             <div class="about-links">
               <a href="https://github.com/jnnysec"  class="about-link" target="_blank" rel="noopener">GitHub</a>
-              <a href="https://twitter.com/jnnysec" class="about-link" target="_blank" rel="noopener">Twitter</a>
               <a href="/feed.xml" class="about-link">RSS</a>
             </div>
           </div>
         </div>
 
         <footer class="page-footer">
-          <span>© 2025 jnnysec</span>
+          <span>© 2026 jnnysec</span>
           <span class="pf-dot"></span>
           <a href="https://jnnysec.github.io">jnnysec.github.io</a>
           <span class="pf-dot"></span>
