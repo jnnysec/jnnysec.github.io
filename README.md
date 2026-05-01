@@ -7,608 +7,381 @@
   <meta name="description" content="个人学习笔记，专注 AI Agent 安全领域。记录 LLM、Agent 架构的安全探索过程。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg:       #0a0d0f;
-      --surface:  #111518;
-      --surface2: #161c20;
-      --border:   #1e2830;
-      --accent:   #00d4a1;
-      --accent2:  #0088ff;
-      --accent3:  #ff6b35;
-      --text:     #c8d8e0;
-      --text2:    #5a7a88;
-      --text3:    #3a5060;
-      --mono:     'JetBrains Mono', monospace;
-      --sans:     'Space Grotesk', sans-serif;
-    }
-
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
       line-height: 1.6;
-      overflow-x: hidden;
     }
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-    /* ── Background Effects ── */
-    .scanlines {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent, transparent 2px,
-        rgba(0, 212, 161, 0.012) 2px, rgba(0, 212, 161, 0.012) 4px
+    .shell { display: flex; height: 100vh; overflow: hidden; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: #f7f7f5; border-right: 1px solid #e8e8e6;
+      display: flex; flex-direction: column;
+      overflow-y: auto; padding: 8px 6px;
+    }
+    .sb-workspace {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 10px; border-radius: 6px; margin-bottom: 4px;
+      cursor: pointer; transition: background .15s;
+    }
+    .sb-workspace:hover { background: #ebebea; }
+    .sb-ws-avatar {
+      width: 24px; height: 24px; border-radius: 5px;
+      background: #2563eb; display: flex; align-items: center;
+      justify-content: center; font-size: 11px; font-weight: 700;
+      color: #fff; flex-shrink: 0;
+    }
+    .sb-ws-name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .sb-section-label {
+      font-size: 11px; font-weight: 600; color: #999;
+      letter-spacing: 0.05em; padding: 12px 10px 4px;
+    }
+    .sb-item {
+      display: flex; align-items: center; gap: 7px;
+      padding: 5px 10px; border-radius: 5px;
+      font-size: 13.5px; color: #555; cursor: pointer;
+      transition: background .12s; user-select: none;
+      text-decoration: none;
+    }
+    .sb-item:hover { background: #ebebea; color: #1a1a1a; }
+    .sb-item.active { background: #e8e8e6; color: #1a1a1a; font-weight: 500; }
+    .sb-icon { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
+    .sb-sub { padding-left: 30px; font-size: 12.5px; color: #888; }
+    .sb-sub:hover { color: #1a1a1a; }
+    .sb-divider { height: 1px; background: #e5e5e3; margin: 8px 6px; }
+    .sb-add {
+      display: flex; align-items: center; gap: 7px;
+      padding: 5px 10px; border-radius: 5px;
+      font-size: 12.5px; color: #bbb; cursor: pointer;
+      transition: background .12s, color .12s;
+    }
+    .sb-add:hover { background: #ebebea; color: #888; }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .topbar {
+      height: 44px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 20px;
+      border-bottom: 1px solid #ececea; background: #fff; flex-shrink: 0;
+    }
+    .breadcrumb { display: flex; align-items: center; gap: 5px; font-size: 13px; color: #999; }
+    .crumb { color: #666; }
+    .sep { color: #ccc; font-size: 12px; }
+    .crumb-cur { color: #1a1a1a; font-weight: 500; }
+    .topbar-actions { display: flex; align-items: center; gap: 4px; }
+    .tb-btn { font-size: 12.5px; color: #888; padding: 4px 10px; border-radius: 5px; transition: background .12s; }
+    .tb-btn:hover { background: #f0f0ee; color: #555; }
+
+    .page-scroll { flex: 1; overflow-y: auto; }
+    .page-cover {
+      height: 160px; background: #f0f5fb;
+      background-image: repeating-linear-gradient(
+        45deg, transparent, transparent 24px,
+        rgba(37,99,235,0.045) 24px, rgba(37,99,235,0.045) 48px
       );
     }
-    .grid-bg {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image:
-        linear-gradient(rgba(0, 136, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 136, 255, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
+    .page-content { max-width: 720px; margin: 0 auto; padding: 44px 60px 80px; }
 
-    /* ── Layout ── */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 28px;
-      position: relative;
-      z-index: 1;
-    }
+    .page-icon-wrap { font-size: 52px; line-height: 1; margin-bottom: 16px; display: block; }
+    .page-title { font-size: 34px; font-weight: 700; color: #1a1a1a; line-height: 1.2; margin-bottom: 20px; letter-spacing: -0.02em; }
 
-    /* ── NAV ── */
-    nav {
-      padding: 22px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      background: rgba(10, 13, 15, 0.92);
-      backdrop-filter: blur(12px);
-      z-index: 100;
-    }
-    .nav-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-    .logo {
-      font-family: var(--mono);
-      font-size: 14px;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* Properties */
+    .props-block { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid #ececea; }
+    .prop-row { display: flex; align-items: center; padding: 5px 0; font-size: 13.5px; }
+    .prop-key { width: 120px; flex-shrink: 0; color: #999; display: flex; align-items: center; gap: 6px; font-size: 12.5px; }
+    .prop-val { color: #555; font-size: 13px; }
+    .prop-val a { color: #2563eb; }
+    .prop-val a:hover { text-decoration: underline; }
+
+    /* Pills */
+    .pill { display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 500; padding: 2px 8px; border-radius: 12px; margin-right: 4px; }
+    .pill-blue   { background: #e8f0fe; color: #1a56db; }
+    .pill-orange { background: #fff7ed; color: #b45309; }
+    .pill-green  { background: #ecfdf5; color: #166534; }
+    .pill-gray   { background: #f3f4f6; color: #6b7280; }
+    .pill-purple { background: #ede9fe; color: #5b21b6; }
+    .pill-red    { background: #fee2e2; color: #b91c1c; }
+
+    /* Callout */
+    .callout { background: #f8f8f7; border-radius: 6px; padding: 12px 16px; margin-bottom: 28px; display: flex; gap: 12px; align-items: flex-start; }
+    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout-body { font-size: 14px; color: #555; line-height: 1.65; }
+
+    /* Headings */
+    .block-h2 { font-size: 18px; font-weight: 600; color: #1a1a1a; margin: 32px 0 12px; display: flex; align-items: center; gap: 8px; }
+    .bh-icon { font-size: 16px; }
+
+    /* Post list */
+    .post-list { margin-bottom: 8px; }
+    .post-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 8px; border-radius: 5px; cursor: pointer;
+      transition: background .12s; border-bottom: 1px solid #f3f3f2;
       text-decoration: none;
     }
-    .logo-bracket { color: var(--text3); }
-    .logo-domain  { font-size: 11px; color: var(--text3); }
-    .status-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2.5s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,212,161,0.4);} 50%{opacity:0.5;box-shadow:0 0 0 4px rgba(0,212,161,0);} }
+    .post-row:last-child { border-bottom: none; }
+    .post-row:hover { background: #f7f7f5; }
+    .post-row:hover .post-title-text { color: #2563eb; }
+    .post-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; }
+    .post-title-text { flex: 1; font-size: 13.5px; color: #1a1a1a; line-height: 1.45; transition: color .12s; min-width: 0; }
+    .badge-new { background: #fee2e2; color: #b91c1c; font-size: 9.5px; font-weight: 600; padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle; flex-shrink: 0; }
+    .post-date { font-size: 11.5px; color: #c0c0c0; flex-shrink: 0; min-width: 72px; text-align: right; }
 
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
+    /* Topics */
+    .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 8px; margin-bottom: 8px; }
+    .topic-chip {
+      background: #fafafa; border: 1px solid #e8e8e6; border-radius: 7px;
+      padding: 10px 12px; cursor: pointer; transition: border-color .15s, background .15s, transform .12s;
+      text-decoration: none; display: block;
     }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text2);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--accent); }
+    .topic-chip:hover { background: #f3f3f1; border-color: #d0d0ce; transform: translateY(-1px); }
+    .chip-emoji { font-size: 16px; margin-bottom: 6px; display: block; }
+    .chip-name { font-size: 12.5px; font-weight: 600; color: #333; margin-bottom: 2px; }
+    .chip-count { font-size: 11px; color: #aaa; }
 
-    /* ── HERO ── */
-    .hero {
-      padding: 64px 0 52px;
-    }
-    .hero-eyebrow {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent2);
-      letter-spacing: 0.2em;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 28px; height: 1px;
-      background: var(--accent2);
-    }
-    .hero h1 {
-      font-family: var(--mono);
-      font-size: clamp(28px, 5vw, 42px);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-    .hl-green  { color: var(--accent); }
-    .hl-blue   { color: var(--accent2); }
-    .hl-orange { color: var(--accent3); }
+    /* About */
+    .text-block { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 14px; }
+    .about-block { display: flex; align-items: center; gap: 12px; padding: 12px 0 4px; }
+    .about-avatar { width: 36px; height: 36px; border-radius: 7px; background: #e8f0fe; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #1a56db; flex-shrink: 0; }
+    .about-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; }
+    .about-sub { font-size: 12px; color: #999; margin-top: 2px; }
+    .about-links { display: flex; gap: 10px; margin-top: 6px; }
+    .about-link { font-size: 12px; color: #2563eb; border-bottom: 1px solid #bdd1f8; padding-bottom: 1px; transition: border-color .12s; }
+    .about-link:hover { border-color: #2563eb; }
 
-    .hero-sub {
-      font-size: 15px;
-      color: var(--text2);
-      max-width: 560px;
-      line-height: 1.8;
-      margin-bottom: 36px;
-    }
+    /* Divider & Footer */
+    .block-divider { height: 1px; background: #ececea; margin: 28px 0; }
+    .page-footer { display: flex; align-items: center; gap: 8px; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ececea; font-size: 12px; color: #ccc; flex-wrap: wrap; }
+    .page-footer a { color: #bbb; }
+    .page-footer a:hover { color: #888; }
+    .pf-dot { width: 3px; height: 3px; border-radius: 50%; background: #ddd; }
 
-    .terminal-prompt {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 20px;
-      font-family: var(--mono);
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 36px;
-    }
-    .prompt-sym  { color: var(--accent); }
-    .prompt-text { color: var(--text2); }
-    .cursor {
-      display: inline-block;
-      width: 8px; height: 15px;
-      background: var(--accent);
-      animation: blink 1s step-end infinite;
-      margin-left: 2px;
-      border-radius: 1px;
-    }
-    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #bbb; }
 
-    .hero-stats {
-      display: flex;
-      gap: 36px;
-    }
-    .stat-num {
-      font-family: var(--mono);
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .stat-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text3);
-      letter-spacing: 0.15em;
-      margin-top: 3px;
-    }
-
-    /* ── DIVIDER ── */
-    .section-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 52px 0 36px;
-      position: relative;
-    }
-    .section-divider::after {
-      content: attr(data-label);
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text3);
-      letter-spacing: 0.2em;
-      position: absolute;
-      right: 0; top: -8px;
-      padding-left: 14px;
-      background: var(--bg);
-    }
-
-    /* ── POSTS ── */
-    .posts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-bottom: 52px;
-    }
-    .post-item {
-      border: 1px solid transparent;
-      border-radius: 7px;
-      padding: 18px 20px;
-      cursor: pointer;
-      transition: background 0.18s, border-color 0.18s;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: start;
-      gap: 16px;
-    }
-    .post-item:hover {
-      background: var(--surface);
-      border-color: var(--border);
-    }
-    .post-item:hover .post-title { color: var(--accent); }
-
-    .post-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 7px;
-    }
-    .tag {
-      font-family: var(--mono);
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 3px;
-      letter-spacing: 0.1em;
-    }
-    .tag-red    { background: rgba(255,107,53,0.12); color: var(--accent3); border: 1px solid rgba(255,107,53,0.3); }
-    .tag-blue   { background: rgba(0,136,255,0.12);  color: var(--accent2); border: 1px solid rgba(0,136,255,0.3); }
-    .tag-green  { background: rgba(0,212,161,0.12);  color: var(--accent);  border: 1px solid rgba(0,212,161,0.3); }
-    .tag-gray   { background: rgba(90,122,136,0.15); color: var(--text2);   border: 1px solid var(--border); }
-    .tag-purple { background: rgba(167,139,250,0.12);color: #a78bfa;        border: 1px solid rgba(167,139,250,0.3); }
-
-    .badge-new {
-      background: rgba(255,107,53,0.15);
-      color: var(--accent3);
-      font-family: var(--mono);
-      font-size: 9px;
-      padding: 1px 6px;
-      border-radius: 2px;
-      letter-spacing: 0.1em;
-      border: 1px solid rgba(255,107,53,0.3);
-      vertical-align: middle;
-      margin-left: 8px;
-    }
-    .post-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 5px;
-      line-height: 1.45;
-      transition: color 0.18s;
-    }
-    .post-excerpt {
-      font-size: 12px;
-      color: var(--text3);
-      line-height: 1.6;
-    }
-    .post-date {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text3);
-      white-space: nowrap;
-      padding-top: 3px;
-    }
-
-    /* ── TOPICS ── */
-    .section-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text3);
-      letter-spacing: 0.2em;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .topics-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 52px;
-    }
-    .topic-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px 14px;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s, transform 0.15s;
-    }
-    .topic-card:hover {
-      border-color: var(--accent2);
-      background: var(--surface2);
-      transform: translateY(-2px);
-    }
-    .topic-icon {
-      font-size: 14px;
-      margin-bottom: 10px;
-      display: block;
-    }
-    .topic-name {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text);
-      margin-bottom: 4px;
-      line-height: 1.3;
-    }
-    .topic-count {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text3);
-    }
-
-    /* ── ABOUT ── */
-    .about-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      padding: 22px 26px;
-      margin-bottom: 52px;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-    .avatar {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(0,212,161,0.25), rgba(0,136,255,0.25));
-      border: 1px solid rgba(0,212,161,0.4);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--mono);
-      font-size: 18px;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-    .about-text h3 {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 5px;
-    }
-    .about-text p {
-      font-size: 13px;
-      color: var(--text2);
-      line-height: 1.65;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 26px 0 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-left {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text3);
-    }
-    .footer-right {
-      display: flex;
-      gap: 20px;
-    }
-    .footer-link {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text3);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-link:hover { color: var(--accent); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      .hero h1 { font-size: 26px; }
-      .hero-stats { gap: 24px; }
-      .topics-grid { grid-template-columns: repeat(3, 1fr); }
-      .about-block { flex-direction: column; text-align: center; }
-      footer { flex-direction: column; gap: 14px; text-align: center; }
-      .footer-left { font-size: 10px; }
-      .post-item { grid-template-columns: 1fr; }
-      .post-date { margin-top: 6px; }
-      .nav-links { gap: 16px; }
-    }
-    @media (max-width: 420px) {
-      .topics-grid { grid-template-columns: repeat(2, 1fr); }
-      .container { padding: 0 18px; }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .page-content { padding: 32px 22px 60px; }
+      .page-title { font-size: 26px; }
+      .topic-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
 
-  <div class="scanlines" aria-hidden="true"></div>
-  <div class="grid-bg"   aria-hidden="true"></div>
+<div class="shell">
 
-  <!-- NAV -->
-  <nav aria-label="主导航">
-    <div class="nav-inner">
-      <a href="/" class="logo" aria-label="jnnysec 首页">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span class="logo-bracket">[</span>jnnysec<span class="logo-bracket">]</span>
-        <span class="logo-domain">.github.io</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="/"        class="active">~/home</a></li>
-        <li><a href="/notes">~/notes</a></li>
-        <li><a href="/research">~/research</a></li>
-        <li><a href="/about">~/about</a></li>
-      </ul>
+  <!-- Sidebar -->
+  <aside class="sidebar" aria-label="侧边导航">
+    <div class="sb-workspace">
+      <div class="sb-ws-avatar">J</div>
+      <div class="sb-ws-name">jnnysec</div>
     </div>
-  </nav>
+    <div class="sb-divider"></div>
 
-  <!-- MAIN -->
-  <main>
-    <div class="container">
+    <nav>
+      <a href="/"         class="sb-item active"><span class="sb-icon">🏠</span> 主页</a>
+      <a href="/notes"    class="sb-item"><span class="sb-icon">📝</span> 学习笔记</a>
+      <a href="/notes/prompt-injection" class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> Prompt Injection</a>
+      <a href="/notes/mcp-security"     class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> MCP Security</a>
+      <a href="/notes/rag-safety"       class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> RAG Safety</a>
+      <a href="/notes/agent-arch"       class="sb-item sb-sub"><span class="sb-icon" style="font-size:11px;">▸</span> Agent 架构</a>
+      <a href="/research" class="sb-item"><span class="sb-icon">🔬</span> 研究记录</a>
+      <a href="/resources"class="sb-item"><span class="sb-icon">🔗</span> 参考资源</a>
+      <a href="/about"    class="sb-item"><span class="sb-icon">👤</span> 关于</a>
+    </nav>
 
-      <!-- HERO -->
-      <section class="hero" aria-labelledby="hero-title">
-        <p class="hero-eyebrow" aria-hidden="true">AI_AGENT_SECURITY_BLOG</p>
-        <h1 id="hero-title">
-          Learning<br>
-          <span class="hl-blue">AI Agent</span> <span class="hl-green">Security</span><br>
-          <span class="hl-orange">in the open</span>
-        </h1>
-        <p class="hero-sub">
-          个人学习笔记 · 威胁模型分析 · 攻防研究。<br>
-          记录 LLM、Agent 架构的安全探索过程，从零构建 AI 安全知识体系。
-        </p>
-        <div class="terminal-prompt" aria-hidden="true">
-          <span class="prompt-sym">$</span>
-          <span class="prompt-text">cat /notes/latest.md</span>
-          <span class="cursor"></span>
-        </div>
-        <div class="hero-stats" aria-label="博客统计">
-          <div class="stat" aria-label="1 篇文章">
-            <div class="stat-num">1</div>
-            <div class="stat-label">ARTICLE</div>
-          </div>
-          <div class="stat" aria-label="5 个主题">
-            <div class="stat-num">5</div>
-            <div class="stat-label">TOPICS</div>
-          </div>
-          <div class="stat" aria-label="2026 年开始">
-            <div class="stat-num">2026</div>
-            <div class="stat-label">SINCE</div>
-          </div>
-        </div>
-      </section>
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">收藏</div>
+    <a href="/starred" class="sb-item"><span class="sb-icon">⭐</span> 精选笔记</a>
+    <div class="sb-divider"></div>
+    <div class="sb-add"><span style="font-size:16px;line-height:1;">+</span> 新建页面</div>
+  </aside>
 
-      <!-- POSTS -->
-      <div class="section-divider" data-label="LATEST_NOTES" aria-hidden="true"></div>
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <div class="breadcrumb">
+        <span class="crumb">jnnysec</span>
+        <span class="sep">›</span>
+        <span class="crumb">AI Agent Security</span>
+        <span class="sep">›</span>
+        <span class="crumb-cur">主页</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="tb-btn">分享</button>
+        <button class="tb-btn">⋯</button>
+      </div>
+    </header>
 
-      <section aria-label="最新笔记">
-                <ol class="posts-list" style="list-style:none;">
+    <main class="page-scroll">
+      <div class="page-cover" role="img" aria-label="封面"></div>
 
-          <li>
-            <a href="/articles/llm-intro-from-security-perspective" style="text-decoration:none;color:inherit;">
-            <article class="post-item">
-              <div>
-                <div class="post-meta">
-                  <span class="tag tag-red">LLM_SECURITY</span>
-                  <span class="badge-new">NEW</span>
-                </div>
-                <h2 class="post-title">
-                  从「预测下一个词」到「攻击下一个词」——一个安全工程师看 Karpathy 的 LLM 入门课
-                </h2>
-                <p class="post-excerpt">
-                  基于 Karpathy 经典演讲的安全视角解读：LLM 的训练两阶段如何产生攻击面、Prompt Injection / Jailbreak / 数据投毒三类核心攻击、LLM OS 类比作为安全审计框架、Web 安全到 LLM 安全的技能平移地图。
-                </p>
-              </div>
-              <time class="post-date" datetime="2026-05-01">2026-05-01</time>
-            </article>
-            </a>
-          </li>
+      <article class="page-content">
 
-        </ol>
-      </section>
+        <span class="page-icon-wrap" aria-hidden="true">🛡️</span>
+        <h1 class="page-title">AI Agent 安全学习笔记</h1>
 
-      <!-- TOPICS -->
-      <div class="section-label" aria-hidden="true">TOPICS</div>
-      <section aria-label="话题分类">
-                <div class="topics-grid">
-          <div class="topic-card" role="link" tabindex="0">
-            <span class="topic-icon" style="color:var(--accent3);">&#9670;</span>
-            <div class="topic-name">Prompt Injection</div>
-            <div class="topic-count">coming soon</div>
+        <div class="props-block">
+          <div class="prop-row">
+            <div class="prop-key"><span>👤</span> 作者</div>
+            <div class="prop-val"><a href="https://github.com/jnnysec" target="_blank" rel="noopener">jnnysec</a></div>
           </div>
-          <div class="topic-card" role="link" tabindex="0">
-            <span class="topic-icon" style="color:var(--accent2);">&#9632;</span>
-            <div class="topic-name">Jailbreak</div>
-            <div class="topic-count">coming soon</div>
+          <div class="prop-row">
+            <div class="prop-key"><span>📅</span> 创建于</div>
+            <div class="prop-val">2025 年 1 月</div>
           </div>
-          <div class="topic-card" role="link" tabindex="0">
-            <span class="topic-icon" style="color:var(--accent);">&#9650;</span>
-            <div class="topic-name">Agent Security</div>
-            <div class="topic-count">coming soon</div>
+          <div class="prop-row">
+            <div class="prop-key"><span>🔄</span> 最近更新</div>
+            <div class="prop-val">2025-04-28</div>
           </div>
-          <div class="topic-card" role="link" tabindex="0">
-            <span class="topic-icon" style="color:#a78bfa;">&#9679;</span>
-            <div class="topic-name">RAG / Memory</div>
-            <div class="topic-count">coming soon</div>
+          <div class="prop-row">
+            <div class="prop-key"><span>🏷️</span> 标签</div>
+            <div class="prop-val">
+              <span class="pill pill-blue">AI Security</span>
+              <span class="pill pill-purple">LLM</span>
+              <span class="pill pill-green">Agent</span>
+            </div>
           </div>
-          <div class="topic-card" role="link" tabindex="0">
-            <span class="topic-icon" style="color:#fbbf24;">&#9671;</span>
-            <div class="topic-name">Supply Chain</div>
-            <div class="topic-count">coming soon</div>
+          <div class="prop-row">
+            <div class="prop-key"><span>📊</span> 笔记数</div>
+            <div class="prop-val">18 篇，持续更新</div>
           </div>
         </div>
-      </section>
 
-      <!-- ABOUT -->
-      <section class="about-block" aria-label="关于作者">
-        <div class="avatar" aria-hidden="true">J</div>
-        <div class="about-text">
-          <h3>jnnysec</h3>
-          <p>Web 安全 / 代码审计背景，转向 AI Agent 安全方向。主攻 Prompt Injection、Jailbreak、Agent 框架审计。这里记录学习笔记和攻防研究。</p>
+        <div class="callout">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">
+            个人学习笔记，专注 <strong>LLM 与 AI Agent</strong> 的安全攻防研究。内容涵盖威胁建模、漏洞分析与防御策略，适合入门到进阶读者，欢迎交流讨论。
+          </div>
         </div>
-      </section>
 
-    </div><!-- /container -->
-  </main>
+        <h2 class="block-h2"><span class="bh-icon">📋</span> 最新笔记</h2>
+        <div class="post-list">
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center;width:100%;">
-      <p class="footer-left">// jnnysec.github.io — personal learning records on AI security</p>
-      <nav class="footer-right" aria-label="外部链接">
-        <a href="https://github.com/jnnysec"  class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="/feed.xml"                    class="footer-link">RSS</a>
-      </nav>
-    </div>
-  </footer>
+          <a class="post-row" href="/notes/prompt-injection-multi-agent">
+            <div class="post-dot" style="background:#2563eb;"></div>
+            <div class="post-title-text">
+              Prompt Injection in Multi-Agent Systems：从理论到实战
+              <span class="badge-new">NEW</span>
+            </div>
+            <span class="pill pill-orange">威胁模型</span>
+            <div class="post-date">2025-04-28</div>
+          </a>
 
-  <script>
-    // Highlight active nav link based on current path
-    const links = document.querySelectorAll('.nav-links a');
-    links.forEach(a => {
-      a.classList.remove('active');
-      if (a.getAttribute('href') === window.location.pathname) {
-        a.classList.add('active');
-      }
-    });
-    if (window.location.pathname === '/') {
-      document.querySelector('.nav-links a[href="/"]')?.classList.add('active');
-    }
+          <a class="post-row" href="/notes/mcp-security-model">
+            <div class="post-dot" style="background:#9ca3af;"></div>
+            <div class="post-title-text">MCP 安全模型笔记：信任边界与权限设计</div>
+            <span class="pill pill-blue">笔记</span>
+            <div class="post-date">2025-04-15</div>
+          </a>
 
-    // Post item click — placeholder navigation
-    document.querySelectorAll('.post-item').forEach(item => {
-      item.addEventListener('click', () => {
-        const title = item.querySelector('.post-title').textContent.trim();
-        const slug  = title
-          .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]+/g, '-')
-          .replace(/^-+|-+$/g, '')
-          .toLowerCase();
-        window.location.href = '/articles/llm-intro-from-security-perspective';
-      });
-      item.setAttribute('tabindex', '0');
-      item.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') item.click();
-      });
-    });
+          <a class="post-row" href="/notes/rag-data-poisoning">
+            <div class="post-dot" style="background:#9ca3af;"></div>
+            <div class="post-title-text">RAG 管道中的数据投毒：间接攻击向量</div>
+            <span class="pill pill-green">研究</span>
+            <div class="post-date">2025-04-02</div>
+          </a>
 
-    // Fade-in on load
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.4s ease';
-    window.addEventListener('DOMContentLoaded', () => {
-      requestAnimationFrame(() => { document.body.style.opacity = '1'; });
-    });
-  </script>
+          <a class="post-row" href="/notes/llm-jailbreak-basics">
+            <div class="post-dot" style="background:#9ca3af;"></div>
+            <div class="post-title-text">LLM 安全基础：越狱技术分类与防御思路</div>
+            <span class="pill pill-gray">基础</span>
+            <div class="post-date">2025-03-20</div>
+          </a>
+
+          <a class="post-row" href="/notes/agent-memory-risks">
+            <div class="post-dot" style="background:#9ca3af;"></div>
+            <div class="post-title-text">Agent 记忆机制的安全隐患：持久化与泄露风险</div>
+            <span class="pill pill-purple">架构</span>
+            <div class="post-date">2025-03-10</div>
+          </a>
+
+          <a class="post-row" href="/notes/agentbench-security">
+            <div class="post-dot" style="background:#9ca3af;"></div>
+            <div class="post-title-text">AgentBench 评测框架在安全场景中的使用</div>
+            <span class="pill pill-blue">工具</span>
+            <div class="post-date">2025-02-28</div>
+          </a>
+
+        </div>
+
+        <div class="block-divider"></div>
+
+        <h2 class="block-h2"><span class="bh-icon">🏷️</span> 话题分类</h2>
+        <div class="topic-grid">
+          <a href="/notes/prompt-injection" class="topic-chip">
+            <span class="chip-emoji">💉</span>
+            <div class="chip-name">Prompt Injection</div>
+            <div class="chip-count">6 篇笔记</div>
+          </a>
+          <a href="/notes/mcp-security" class="topic-chip">
+            <span class="chip-emoji">🔌</span>
+            <div class="chip-name">MCP Security</div>
+            <div class="chip-count">4 篇笔记</div>
+          </a>
+          <a href="/notes/rag-safety" class="topic-chip">
+            <span class="chip-emoji">🗄️</span>
+            <div class="chip-name">RAG Safety</div>
+            <div class="chip-count">3 篇笔记</div>
+          </a>
+          <a href="/notes/agent-arch" class="topic-chip">
+            <span class="chip-emoji">🤖</span>
+            <div class="chip-name">Agent 架构</div>
+            <div class="chip-count">3 篇笔记</div>
+          </a>
+          <a href="/notes/llm-basics" class="topic-chip">
+            <span class="chip-emoji">📖</span>
+            <div class="chip-name">LLM 基础</div>
+            <div class="chip-count">2 篇笔记</div>
+          </a>
+        </div>
+
+        <div class="block-divider"></div>
+
+        <h2 class="block-h2"><span class="bh-icon">👤</span> 关于作者</h2>
+        <p class="text-block">安全研究学习者，专注于 AI Agent 安全领域。记录学习过程中的笔记、实验复现和思考。内容面向入门到进阶，所有笔记均为个人理解，欢迎指正与交流。</p>
+
+        <div class="about-block">
+          <div class="about-avatar">J</div>
+          <div>
+            <div class="about-name">jnnysec</div>
+            <div class="about-sub">Security Researcher · AI Agent Safety</div>
+            <div class="about-links">
+              <a href="https://github.com/jnnysec"  class="about-link" target="_blank" rel="noopener">GitHub</a>
+              <a href="https://twitter.com/jnnysec" class="about-link" target="_blank" rel="noopener">Twitter</a>
+              <a href="/feed.xml" class="about-link">RSS</a>
+            </div>
+          </div>
+        </div>
+
+        <footer class="page-footer">
+          <span>© 2025 jnnysec</span>
+          <span class="pf-dot"></span>
+          <a href="https://jnnysec.github.io">jnnysec.github.io</a>
+          <span class="pf-dot"></span>
+          <span>个人学习记录，仅供参考</span>
+        </footer>
+
+      </article>
+    </main>
+  </div>
+</div>
 
 </body>
 </html>
