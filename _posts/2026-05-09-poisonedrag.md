@@ -1,9 +1,3 @@
----
-layout: post
-title: "PoisonedRAG：往知识库里投毒，让 AI Agent 说你想说的话"
-date: 2026-05-09
-categories: [AI安全, 论文解读]
----
 
 > **作者：** jnnysec
 > **日期：** 2026-05-09
