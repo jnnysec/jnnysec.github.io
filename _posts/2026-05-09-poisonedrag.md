@@ -1,10 +1,3 @@
----
-layout: post
-title: "PoisonedRAG"
-date: 2026-05-09
-categories: [AI安全, 论文解读]
----
-
 > **作者：** jnnysec
 > **日期：** 2026-05-09
 > **标签：** RAG安全、知识库投毒、Prompt Injection、Agent安全、论文解读
