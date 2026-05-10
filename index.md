@@ -24,7 +24,16 @@ description: jnnysec 的 AI Agent 安全学习记录，聚焦 Prompt Injection�
     </div>
     <div class="profile-body">
       <h2>jnnysec</h2>
-      <p>CISSP / PMP / CISP / CISP-PTE / CAISP / ISO 27001 · ISC2 & CSA 会员</p>
+      <dl class="profile-credentials">
+        <div>
+          <dt>认证</dt>
+          <dd>CISSP / PMP / CISP / CISP-PTE / CAISP / ISO/IEC 27001 Foundation</dd>
+        </div>
+        <div>
+          <dt>会员</dt>
+          <dd>ISC2 / CSA</dd>
+        </div>
+      </dl>
       <div class="metrics" aria-label="站点统计">
         <div class="metric">
           <strong>{{ site.posts | size }}</strong>
