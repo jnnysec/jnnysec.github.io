@@ -1,9 +1,24 @@
+---
+layout: default
+title: "形式化 Prompt Injection：五招攻击、十种防御，谁更强？"
+date: 2026-05-07
+author: "jnnysec"
+tags: ["Prompt Injection", "LLM Security", "Formal Methods", "Red Teaming"]
+source: "Formalizing and Benchmarking Prompt Injection Attacks and Defenses, Yupei Liu et al., USENIX Security 2024"
+paper: "https://arxiv.org/abs/2310.12815"
+code: "https://github.com/liu00222/Open-Prompt-Injection"
+audience: "Prompt Injection 研究者、LLM 应用防御工程师"
+description: "梳理 Prompt Injection 的形式化定义、五类攻击策略和十种防御评测，建立可横向比较的攻防框架。"
+---
+
 # 形式化 Prompt Injection：五招攻击、十种防御，谁更强？
 
-> **作者：** jnnysec  
-> **原文：** *Formalizing and Benchmarking Prompt Injection Attacks and Defenses*，Yupei Liu et al.（宾州州立 & 杜克大学），USENIX Security 2024  
-> **论文：** [arXiv:2310.12815](https://arxiv.org/abs/2310.12815) | **开源平台：** [Open-Prompt-Injection](https://github.com/liu00222/Open-Prompt-Injection)  
-> **标签：** Prompt Injection, LLM Security, Formal Methods, Red Teaming
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-07<br>
+> **标签：** Prompt Injection, LLM Security, Formal Methods, Red Teaming<br>
+> **面向读者：** Prompt Injection 研究者、LLM 应用防御工程师<br>
+> **原文：** *Formalizing and Benchmarking Prompt Injection Attacks and Defenses*，Yupei Liu et al.（宾州州立 & 杜克大学），USENIX Security 2024<br>
+> **论文：** [arXiv:2310.12815](https://arxiv.org/abs/2310.12815) | **开源平台：** [Open-Prompt-Injection](https://github.com/liu00222/Open-Prompt-Injection)
 
 ---
 
@@ -99,14 +114,9 @@
 
 ---
 
-## 六、延伸阅读
+## 延伸阅读
 
 - **论文原文：** [arXiv:2310.12815](https://arxiv.org/abs/2310.12815) — 强烈推荐 Table 3 的完整 ASV 矩阵
 - **开源评测平台：** [Open-Prompt-Injection](https://github.com/liu00222/Open-Prompt-Injection) — 可以直接跑实验、测自己的防御方案
 - **同一作者组后续工作：** [InjecAgent](https://arxiv.org/abs/2403.05647) — 把 Prompt Injection 评测扩展到 Agent 工具调用环境
 - **相关阅读：** [HackAPrompt](https://www.hackaprompt.com/) · [HouYi 论文](https://arxiv.org/abs/2306.05499) · [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
-
----
-
-> **jnnysec** · AI Agent 安全研究  
-> 从 Web 安全到 Prompt Injection，同一个思路，不同的语法。

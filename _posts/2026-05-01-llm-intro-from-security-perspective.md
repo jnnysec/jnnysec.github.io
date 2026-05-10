@@ -1,8 +1,21 @@
+---
+layout: default
+title: "一个安全工程师看 Karpathy 的 LLM 入门课：从「预测下一个词」到「攻击下一个词」"
+date: 2026-05-01
+author: "jnnysec"
+tags: ["LLM", "AI Security", "Prompt Injection", "Jailbreak"]
+source: "Andrej Karpathy — Intro to Large Language Models (2023.11)"
+audience: "Web 安全工程师、AI 安全入门学习者"
+description: "从安全工程师视角拆解 Karpathy 的 LLM 入门课，理解预训练、微调、RLHF 与 Prompt Injection 攻击面的关系。"
+---
+
 # 一个安全工程师看 Karpathy 的 LLM 入门课：从「预测下一个词」到「攻击下一个词」
 
-> 原文：Andrej Karpathy — *Intro to Large Language Models* (2023.11)  
-> 作者：jnnysec  
-> 标签：LLM, AI Security, Prompt Injection, Jailbreak
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-01<br>
+> **标签：** LLM, AI Security, Prompt Injection, Jailbreak<br>
+> **面向读者：** Web 安全工程师、AI 安全入门学习者<br>
+> **原文：** Andrej Karpathy — *Intro to Large Language Models* (2023.11)
 
 ---
 
@@ -228,7 +241,3 @@ Karpathy 借用 Kahneman 的双系统理论分析 LLM 的能力边界：
 - **GCG 越狱**：[Universal and Transferable Adversarial Attacks on Aligned Language Models](https://arxiv.org/abs/2307.15043)（CMU, 2023）
 - **Jailbreak 失败模式**：[Jailbroken: How Does LLM Safety Training Fail?](https://arxiv.org/abs/2307.02483)（Wei et al., NeurIPS 2023）
 - **OWASP LLM Top 10**：[owasp.org](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
-
----
-
-*本文基于 Karpathy 2023 年 11 月的演讲 *Intro to Large Language Models*（45 页幻灯片 / 1 小时视频）整理，补充了安全视角的解读和个人思考。推荐先看原视频再看本文。*

@@ -1,8 +1,21 @@
+---
+layout: default
+title: "图解 Transformer：彻底理解现代大模型的基石"
+date: 2026-05-01
+author: "jnnysec"
+tags: ["Transformer", "Deep Learning", "LLM", "Self-Attention"]
+source: "Jay Alammar — The Illustrated Transformer (2018, 更新至 2025)"
+audience: "LLM 入门学习者、AI 安全研究者"
+description: "从安全从业者视角复盘 Transformer 的核心结构，解释自注意力、Encoder-Decoder 和大模型架构演进。"
+---
+
 # 图解 Transformer：彻底理解现代大模型的基石
 
-> 原文：Jay Alammar — *The Illustrated Transformer* (2018, 更新至 2025)  
-> 作者：jnnysec  
-> 标签：Transformer, Deep Learning, LLM, Self-Attention
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-01<br>
+> **标签：** Transformer, Deep Learning, LLM, Self-Attention<br>
+> **面向读者：** LLM 入门学习者、AI 安全研究者<br>
+> **原文：** Jay Alammar — *The Illustrated Transformer* (2018, 更新至 2025)
 
 ---
 
@@ -74,20 +87,35 @@ GPT 系列只用 Decoder 部分（Decoder-only），BERT 只用 Encoder 部分�
 
 ### 3.3 计算过程：六步走
 
-核心公式：
+如果不看论文公式，Self-Attention 可以先理解成一条流水线：
 
-$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) \times V$$
+```text
+当前词想找什么（Q）
+  → 和所有词的标签（K）逐个打分
+  → 把分数转换成注意力权重
+  → 按权重汇总所有词真正携带的信息（V）
+  → 得到带上下文的新表示
+```
 
-拆解成步骤：
+论文里的 Attention 公式，本质上就是把上面这条流水线压缩成一行。可以这样读：
+
+| 公式片段 | 先理解成什么 |
+|---|---|
+| `Q 和 K 打分` | 当前词拿自己的 Query 去问：哪些词和我最相关？ |
+| `除以 8` | 把分数压一压，避免某个词分数大到“一票否决”其他词 |
+| `softmax` | 把一堆分数变成权重，比如 70%、20%、10%，总和为 100% |
+| `权重 × V` | 按这些权重汇总所有词携带的信息 |
+
+拆成实际步骤就是：
 
 1. 从输入 embedding 生成 Q、K、V 向量（每个输入词 → 三个 64 维向量）
 2. 用当前词的 Q 去点乘所有词的 K，得到「相关性分数」——分数越高，两个词越相关
-3. 将分数除以 √d_k（= 8）做缩放，防止点积值过大导致 softmax 梯度消失
+3. 将分数除以 8 做缩放，防止点积值过大导致 softmax 失控
 4. Softmax 归一化，得到每个词对当前词的「注意力权重」（总和为 1）
 5. 用注意力权重加权求和所有词的 V 向量
 6. 输出一个新的向量（称为 z），它包含了来自上下文中所有相关信息
 
-> **为什么除以 √d_k？** 假设 Q 和 K 的每个分量都是均值为 0、方差为 1 的随机变量，那么 QK^T 中每个值的方差是 d_k。当 d_k 很大时，点积值可能非常大，softmax 会变得极端（接近 one-hot），梯度趋近于零。除以 √d_k 把方差拉回 1，保证梯度正常流动。
+> **为什么要缩放？** 因为 Q 和 K 的维度越高，点乘出来的分数越容易变得很大。分数太大时，softmax 会几乎只选最高分那个词，其他词的影响接近 0。除以 8 的作用，就是把分数拉回一个更平滑、更容易训练的范围。
 
 ---
 
@@ -110,12 +138,15 @@ Transformer 的解决方案：同时运行 **8 个独立的注意力头**，每�
 
 拿掉 RNN 之后，模型失去了对词序的感知。「狗咬人」和「人咬狗」对模型来说变成了同样的词袋——因为 Self-Attention 本身不区分位置。
 
-解决方案：在输入 embedding 上**加一个位置编码向量**。原论文使用正弦和余弦函数生成位置编码：
+解决方案：在输入 embedding 上**加一个位置编码向量**。原论文用正弦和余弦函数生成这组数字，公式可以先不用背，抓住直觉就够了：
 
-$$PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$$
-$$PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$$
+| 位置编码在做什么 | 直觉解释 |
+|---|---|
+| 给每个位置生成一串固定数字 | 第 1 个词、第 2 个词、第 100 个词，都有自己的“坐标” |
+| 偶数维用 sin，奇数维用 cos | 用两组波形给位置打标签，避免所有维度都长得一样 |
+| 不同维度使用不同波长 | 有的维度看近距离顺序，有的维度看长距离关系 |
 
-正弦/余弦函数的选择有两个好处：
+正弦/余弦函数的选择有三个好处：
 1. 每个位置有唯一的编码
 2. 相邻位置的编码相似（符合直觉——相邻词的语义关系更紧密）
 3. 可以外推到训练时未见过的更长序列
@@ -184,7 +215,3 @@ Decoder 层的第二个 Attention 比较特殊：它的 Q 来自 Decoder 自己�
 - **动手实现**：Harvard NLP — *The Annotated Transformer*（PyTorch 逐行实现 + 注释）
 - **升级版**：Jay Alammar — *Hands-On Large Language Models*（第 3 章，覆盖 2017-2025 的架构演进）
 - **RoPE**：Su et al. — *RoFormer: Enhanced Transformer with Rotary Position Embedding*（2021，LLaMA/Qwen 采用的位置编码方案）
-
----
-
-*本文基于 Jay Alammar 的 *The Illustrated Transformer* 整理，原文链接：https://jalammar.github.io/illustrated-transformer/*

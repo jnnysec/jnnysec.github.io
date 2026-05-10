@@ -1,9 +1,23 @@
+---
+layout: default
+title: "PoisonedRAG：往知识库里投毒，让 AI Agent 说你想说的话"
+date: 2026-05-09
+author: "jnnysec"
+tags: ["RAG安全", "知识库投毒", "Prompt Injection", "Agent安全", "论文解读"]
+source: "PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models"
+code: "https://github.com/sleeepeer/PoisonedRAG"
+audience: "Web 安全工程师、AI Agent 开发者、安全研究者"
+description: "拆解 PoisonedRAG 如何通过少量恶意文档污染知识库，让 RAG 系统对特定问题输出攻击者想要的假答案。"
+---
+
 # PoisonedRAG：往知识库里投毒，让 AI Agent 说你想说的话
 
-> **作者：** jnnysec
-> **日期：** 2026-05-09
-> **标签：** RAG安全、知识库投毒、Prompt Injection、Agent安全、论文解读
-> **面向读者：** Web 安全工程师、AI Agent 开发者、安全研究者
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-09<br>
+> **标签：** RAG安全、知识库投毒、Prompt Injection、Agent安全、论文解读<br>
+> **面向读者：** Web 安全工程师、AI Agent 开发者、安全研究者<br>
+> **论文：** *PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models*<br>
+> **代码：** [github.com/sleeepeer/PoisonedRAG](https://github.com/sleeepeer/PoisonedRAG)
 
 ---
 
@@ -154,16 +168,7 @@ RAG 投毒：恶意文本在知识库 → 所有提问用户受影响
 
 ---
 
-## 7. 延伸阅读
-
-- **GCG（同一作者组的 LLM 越狱研究）**：从 jailbreak 到 RAG 攻击，同一个团队，研究脉络值得追踪
-- **InjecAgent（arXiv: 2403.02647）**：Agent 环境下的间接注入评测——当用户、工具、环境全都可以被投毒，Agent 还安全吗？
-- **Poisoning the Well（Black Hat Europe 2024）**：RAG 投毒的工业界视角
-- **PoisonedRAG 代码**：[github.com/sleeepeer/PoisonedRAG](https://github.com/sleeepeer/PoisonedRAG)
-
----
-
-## 写在最后
+## 7. 写在最后
 
 PoisonedRAG 给我的最大感触是：**AI 安全不是给 LLM 加个围栏就完事了**。RAG 的信任链比传统 Web 应用更长——知识来源、检索模块、LLM 推理，每个环节都是攻击面。而知识库投毒作为一种"数据层的注入攻击"，其隐蔽性（5/260万）和高成功率（97%）的组合，让它成为 Agent 安全领域不可忽视的威胁模型。
 
@@ -171,4 +176,9 @@ PoisonedRAG 给我的最大感触是：**AI 安全不是给 LLM 加个围栏就�
 
 ---
 
-*本文基于 USENIX Security 2024 论文 PoisonedRAG 的阅读笔记整理，主要用于个人学习与技术交流。*
+## 延伸阅读
+
+- **GCG（同一作者组的 LLM 越狱研究）**：从 jailbreak 到 RAG 攻击，同一个团队，研究脉络值得追踪
+- **InjecAgent（arXiv: 2403.02647）**：Agent 环境下的间接注入评测——当用户、工具、环境全都可以被投毒，Agent 还安全吗？
+- **Poisoning the Well（Black Hat Europe 2024）**：RAG 投毒的工业界视角
+- **PoisonedRAG 代码**：[github.com/sleeepeer/PoisonedRAG](https://github.com/sleeepeer/PoisonedRAG)

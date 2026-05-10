@@ -3,169 +3,803 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>{{ site.title }}</title>
-  <link href="https://fonts.googleapis.com/css?family=Inter:500,700&display=swap" rel="stylesheet">
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
-    /* 重置 & 全局样式 (保留原风格) */
-    html, body { margin:0; padding:0; background:#f8fafc; color:#243047; min-height:100vh; }
-    body { font-family: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+    :root {
+      --bg: #f3f6f1;
+      --surface: #ffffff;
+      --surface-soft: #eef3ec;
+      --surface-tint: #f8faf6;
+      --ink: #16201d;
+      --muted: #65706d;
+      --subtle: #8a9691;
+      --line: #d9e1dc;
+      --accent: #0f766e;
+      --accent-strong: #134e4a;
+      --amber: #b45309;
+      --red: #b42318;
+      --shadow: 0 18px 45px rgba(35, 49, 45, 0.08);
+      --radius: 8px;
+      --content: 1160px;
+    }
 
-    /* 新的顶部导航容器 —— 替代原来的sidebar */
-    .top-bar {
-      max-width: 1100px;
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        linear-gradient(180deg, rgba(15, 118, 110, 0.08), rgba(243, 246, 241, 0) 360px),
+        var(--bg);
+      color: var(--ink);
+    }
+
+    body {
+      font-family: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--accent-strong);
+      text-decoration-color: rgba(15, 118, 110, 0.32);
+      text-underline-offset: 3px;
+      transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    a:hover {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .site-shell {
+      width: min(var(--content), calc(100% - 40px));
       margin: 0 auto;
-      padding: 28px 32px 16px 32px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(217, 225, 220, 0.82);
+      background: rgba(243, 246, 241, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      min-height: 76px;
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #e2e6ea;
-    }
-
-    /* 左侧：头像 + 昵称 + 描述（紧凑组） */
-    .top-info {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .top-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 24px;
-      border: 3px solid #2563eb33;
-      background: #fff;
-    }
-    .top-text {
-      display: flex;
-      flex-direction: column;
-    }
-    .top-nickname {
-      font-weight: 700;
-      font-size: 1.35rem;
-      color: #18408e;
-      margin-bottom: 4px;
-    }
-    .top-desc {
-      color: #394769;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-    .top-desc br {
-      display: none;  /* 原desc中的<br>在横向布局里会换行，保留但视觉内显示为空格？原desc中有“Web 安全 → AI Agent 安全<br>主攻...” */
-    }
-    /* 为了让原<br>正常换行，还原显示 */
-    .top-desc br {
-      display: inline;
-    }
-
-    /* 右侧导航 + contact */
-    .top-nav-links {
-      display: flex;
-      align-items: center;
       gap: 24px;
     }
-    .top-nav-links nav a {
-      display: inline-block;
-      padding: 6px 8px;
-      color: #2563eb;
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
       text-decoration: none;
-      font-weight: 500;
-      margin-right: 12px;
     }
-    .top-nav-links nav a:hover {
-      background: #b7d9ff22;
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      background: var(--surface);
+      object-fit: cover;
+      box-shadow: 0 8px 22px rgba(15, 78, 74, 0.10);
     }
-    .contact {
-      /* 原contact为空，保留但仅占位 */
+
+    .brand-name {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.2;
     }
-    .contact a {
-      color: #2563eb;
+
+    .brand-line {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
       font-weight: 600;
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 0 11px;
+      border-radius: 8px;
+      color: var(--muted);
       text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
     }
 
-    /* 主内容区：占据剩余宽度，居中留白 */
+    .nav-links a:hover {
+      background: rgba(15, 118, 110, 0.08);
+      color: var(--accent-strong);
+    }
+
+    .page {
+      padding: 48px 0 56px;
+    }
+
     .main {
-      max-width: 800px;
-      margin: 2rem auto 0;
-      background: #fff;
-      padding: 32px 40px 50px 40px;
-      border-radius: 24px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+      min-height: 56vh;
     }
 
-    /* 原footer样式保留 */
-    .footer {
-      color: #a9aab2;
-      font-size: .99em;
-      margin-top: 44px;
-      text-align: right;
-      padding-right: 5px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+    .home-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 36px;
+      align-items: stretch;
+      margin-bottom: 44px;
     }
 
-    /* 响应式：窄屏时顶部信息堆叠 */
-    @media (max-width: 780px) {
-      .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
+    .hero-copy {
+      padding: 42px 0 18px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: var(--accent-strong);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 999px;
+    }
+
+    .hero-copy h1 {
+      max-width: 780px;
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(2.35rem, 5.2vw, 5rem);
+      line-height: 0.98;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .hero-copy h1 span {
+      color: var(--accent-strong);
+    }
+
+    .hero-lede {
+      max-width: 690px;
+      margin: 24px 0 0;
+      color: #3f4c48;
+      font-size: clamp(1.02rem, 1.8vw, 1.2rem);
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(35, 49, 45, 0.06);
+    }
+
+    .button.primary {
+      border-color: var(--accent-strong);
+      background: var(--accent-strong);
+      color: #fff;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      color: var(--ink);
+    }
+
+    .button.primary:hover {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .hero-panel {
+      align-self: stretch;
+      border: 1px solid rgba(15, 118, 110, 0.16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .profile-card {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .profile-cover {
+      min-height: 174px;
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.94), rgba(180, 83, 9, 0.78)),
+        url("https://avatars.githubusercontent.com/u/117813634?s=400&u=6d68b7d649e6422fa6cc985b15726c4fd1434a15&v=4") center / cover;
+      background-blend-mode: multiply;
+      color: #fff;
+    }
+
+    .profile-cover img {
+      width: 86px;
+      height: 86px;
+      border-radius: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      object-fit: cover;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    }
+
+    .profile-cover p {
+      max-width: 280px;
+      margin: 22px 0 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .profile-body {
+      padding: 26px 28px 28px;
+      background: var(--surface);
+    }
+
+    .profile-body h2 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+
+    .profile-body p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--line);
+    }
+
+    .metric {
+      padding: 14px 12px;
+      background: var(--surface-tint);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--ink);
+      font-size: 1.1rem;
+      line-height: 1.1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--subtle);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 38px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 18px;
+    }
+
+    .section-kicker {
+      display: block;
+      color: var(--amber);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.38rem, 2.6vw, 2rem);
+      line-height: 1.2;
+    }
+
+    .section-header p {
+      max-width: 470px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .topic-card,
+    .note-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 8px 24px rgba(35, 49, 45, 0.04);
+    }
+
+    .topic-card {
+      min-height: 178px;
+      padding: 20px;
+    }
+
+    .topic-card .index {
+      display: block;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .topic-card h3 {
+      margin: 0;
+      font-size: 1.03rem;
+      line-height: 1.36;
+    }
+
+    .topic-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .post-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .post-item {
+      display: grid;
+      grid-template-columns: 116px minmax(0, 1fr);
+      gap: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 10px 24px rgba(35, 49, 45, 0.04);
+    }
+
+    .post-date {
+      color: var(--accent-strong);
+      font-size: 0.85rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .post-date span {
+      display: block;
+      margin-top: 5px;
+      color: var(--subtle);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .post-title {
+      display: inline;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: clamp(1.02rem, 1.8vw, 1.2rem);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .post-title:hover {
+      color: var(--accent-strong);
+      text-decoration: underline;
+      text-decoration-color: rgba(15, 118, 110, 0.45);
+    }
+
+    .post-excerpt {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.72;
+    }
+
+    .sidebar {
+      display: grid;
+      gap: 14px;
+    }
+
+    .note-card {
+      padding: 20px;
+    }
+
+    .note-card h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+
+    .note-card p,
+    .note-card li {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .note-card p {
+      margin: 0;
+    }
+
+    .note-card ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .note-card li {
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .note-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.72em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .article {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 36px 40px 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      font-size: 1rem;
+      line-height: 1.72;
+    }
+
+    .article h1 {
+      max-width: 760px;
+      margin: 0 0 16px;
+      font-size: clamp(1.55rem, 2.8vw, 2.08rem);
+      line-height: 1.24;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .article h2 {
+      margin: 34px 0 12px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: clamp(1.28rem, 2vw, 1.48rem);
+      line-height: 1.32;
+    }
+
+    .article h3 {
+      margin: 24px 0 8px;
+      font-size: 1.06rem;
+      line-height: 1.35;
+    }
+
+    .article h4 {
+      margin: 20px 0 8px;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .article p {
+      margin: 13px 0;
+      color: #35433f;
+    }
+
+    .article ul,
+    .article ol {
+      margin: 12px 0 18px;
+      padding-left: 1.45rem;
+      color: #35433f;
+    }
+
+    .article li + li {
+      margin-top: 6px;
+    }
+
+    .article hr {
+      height: 1px;
+      margin: 22px 0;
+      border: 0;
+      background: var(--line);
+    }
+
+    .article blockquote {
+      margin: 18px 0;
+      padding: 14px 16px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      background: var(--surface-tint);
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.68;
+    }
+
+    .article blockquote p {
+      margin: 6px 0;
+      color: var(--muted);
+    }
+
+    .article code {
+      padding: 0.15em 0.35em;
+      border-radius: 5px;
+      background: #edf2ef;
+      color: #10201d;
+      font-size: 0.9em;
+    }
+
+    .article pre {
+      overflow-x: auto;
+      margin: 18px 0;
+      padding: 18px;
+      border-radius: 8px;
+      background: #17211f;
+      color: #eef8f4;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .article pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .article table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92rem;
+    }
+
+    .article th,
+    .article td {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .article th {
+      background: var(--surface-soft);
+      text-align: left;
+    }
+
+    .site-footer {
+      padding: 28px 0 44px;
+      color: var(--subtle);
+      font-size: 0.9rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .home-hero,
+      .content-grid {
+        grid-template-columns: 1fr;
       }
-      .top-nav-links {
-        align-self: flex-start;
+
+      .hero-copy {
+        padding-top: 22px;
+      }
+
+      .topic-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sidebar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .site-shell {
+        width: min(100% - 28px, var(--content));
+      }
+
+      .nav {
+        min-height: auto;
+        padding: 16px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .page {
+        padding-top: 28px;
+      }
+
+      .hero-copy h1 {
+        font-size: 2.45rem;
+      }
+
+      .hero-panel {
         margin-top: 4px;
       }
-      .main {
-        padding: 24px 28px;
-        margin: 1.5rem 20px;
+
+      .section-header {
+        display: block;
       }
-      .footer {
-        margin: 0 20px 20px 20px;
-        text-align: left;
+
+      .section-header p {
+        margin-top: 8px;
       }
-    }
-    @media (max-width: 550px) {
-      .top-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
+
+      .topic-grid,
+      .sidebar {
+        grid-template-columns: 1fr;
       }
-      .main {
-        padding: 20px 20px;
+
+      .post-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .post-date span {
+        display: inline;
+        margin-left: 8px;
+      }
+
+      .article {
+        padding: 26px 18px 32px;
+      }
+
+      .article h1 {
+        font-size: 1.45rem;
+        line-height: 1.28;
+      }
+
+      .article h2 {
+        font-size: 1.22rem;
+      }
+
+      .article h3 {
+        font-size: 1.02rem;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        display: block;
       }
     }
   </style>
 </head>
 <body>
-  <!-- 原侧边栏的内容全部迁移到顶部 -->
-  <div class="top-bar">
-    <div class="top-info">
-      <img class="top-avatar avatar" src="https://avatars.githubusercontent.com/u/117813634?s=400&u=6d68b7d649e6422fa6cc985b15726c4fd1434a15&v=4" alt="jnnysec">
-      <div class="top-text">
-        <div class="top-nickname nickname">{{ site.author }}</div>
-        <div class="top-desc desc">Web 安全 → AI Agent 安全<br>主攻 Prompt Injection、Jailbreak、Agent 框架审计</div>
-      </div>
-    </div>
-    <div class="top-nav-links">
-      <nav>
+  <header class="site-header">
+    <div class="site-shell nav">
+      <a class="brand" href="{{ '/' | relative_url }}" aria-label="{{ site.author }} 主页">
+        <img class="brand-mark" src="https://avatars.githubusercontent.com/u/117813634?s=400&u=6d68b7d649e6422fa6cc985b15726c4fd1434a15&v=4" alt="{{ site.author }}">
+        <span>
+          <span class="brand-name">{{ site.author }}</span>
+          <span class="brand-line">AI Agent Security Notes</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
         <a href="{{ '/' | relative_url }}">主页</a>
-        <a href="https://github.com/jnnysec" target="_blank">GitHub</a>
+        <a href="{{ '/#notes' | relative_url }}">文章</a>
+        <a href="{{ '/#about' | relative_url }}">关于</a>
+        <a href="https://github.com/jnnysec" target="_blank" rel="noopener">GitHub</a>
       </nav>
-      <div class="contact">
-        <!-- 原contact保留为空，不做任何增减 -->
-      </div>
     </div>
-  </div>
+  </header>
 
-  <!-- 原来的主内容区，完全不变 -->
-  <main class="main">
-    {{ content }}
-    <div class="footer">
-      jnnysec.github.io · 个人学习记录
-    </div>
+  <main class="site-shell page main">
+    {% if page.url == "/" %}
+      {{ content }}
+    {% else %}
+      <article class="article">
+        {{ content }}
+      </article>
+    {% endif %}
   </main>
+
+  <footer class="site-footer">
+    <div class="site-shell footer-inner">
+      <span>{{ site.author }} · AI Agent Security</span>
+      <span>Prompt Injection / Jailbreak / Agent Architecture Audit</span>
+    </div>
+  </footer>
 </body>
 </html>

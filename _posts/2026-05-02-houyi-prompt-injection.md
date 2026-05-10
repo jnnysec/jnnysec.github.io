@@ -1,8 +1,21 @@
+---
+layout: default
+title: "HouYi：当 SQL 注入遇上 LLM——一套打穿 86% 商业 AI 应用的攻击框架"
+date: 2026-05-02
+author: "jnnysec"
+tags: ["Prompt Injection", "LLM Security", "Red Teaming"]
+source: "Prompt Injection attack against LLM-integrated Applications, Liu et al., arXiv 2306.05499"
+audience: "Web 安全工程师、LLM 应用安全研究者"
+description: "用 SQL 注入的三段式直觉拆解 HouYi Prompt Injection 框架，以及它在真实商业 LLM 应用中的攻击思路。"
+---
+
 # HouYi：当 SQL 注入遇上 LLM——一套打穿 86% 商业 AI 应用的攻击框架
 
-> **作者：** jnnysec  
-> **原文：** *Prompt Injection attack against LLM-integrated Applications*，Liu et al., arXiv 2306.05499  
-> **标签：** Prompt Injection, LLM Security, Red Teaming
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-02<br>
+> **标签：** Prompt Injection, LLM Security, Red Teaming<br>
+> **面向读者：** Web 安全工程师、LLM 应用安全研究者<br>
+> **原文：** *Prompt Injection attack against LLM-integrated Applications*，Liu et al., arXiv 2306.05499
 
 ---
 
@@ -157,14 +170,9 @@ HouYi：   Framework  →  Separator     →  Disruptor
 
 ---
 
-## 五、延伸阅读
+## 延伸阅读
 
 - **HouYi 论文原文：** https://arxiv.org/abs/2306.05499（Table 4 的 36 个应用对照实验结果值得细看）
 - **OWASP LLM Top 10：** Prompt Injection 排第一位，HouYi 给出了系统化的攻击视角
 - **HackAPrompt：** https://www.hackaprompt.com/ — 10 级 Prompt Injection 闯关，学完 HouYi 后立刻实战
 - **Gandalf：** https://gandalf.lakera.ai/ — Lakera 的 Prompt Injection 游戏，适合入门
-
----
-
-> **jnnysec** · AI Agent 安全研究  
-> 从 Web 安全到 Prompt Injection，同一个思路，不同的语法。

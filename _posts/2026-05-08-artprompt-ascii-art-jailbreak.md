@@ -1,9 +1,20 @@
+---
+layout: default
+title: "ArtPrompt 攻击"
+date: 2026-05-08
+author: "jnnysec"
+tags: ["AI安全", "LLM越狱", "Prompt注入", "安全对齐", "ASCII艺术攻击"]
+source: "ArtPrompt: ASCII Art-based Jailbreak Attacks against Aligned LLMs, Fengqing Jiang et al., arXiv 2402.11753"
+audience: "AI安全从业者、LLM应用开发者、安全审计工程师"
+description: "解析 ArtPrompt 如何用 ASCII 艺术把危险词汇从语义域拖到视觉编码域，从而绕过 LLM 安全对齐。"
+---
+
 # ArtPrompt 攻击
 
-> **作者：** jnnysec
-> **日期：** 2026-05-08
-> **标签：** AI安全, LLM越狱, Prompt注入, 安全对齐, ASCII艺术攻击
-> **面向读者：** AI安全从业者、LLM应用开发者、安全审计工程师
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-08<br>
+> **标签：** AI安全, LLM越狱, Prompt注入, 安全对齐, ASCII艺术攻击<br>
+> **面向读者：** AI安全从业者、LLM应用开发者、安全审计工程师<br>
 > **论文出处：** *ArtPrompt: ASCII Art-based Jailbreak Attacks against Aligned LLMs*, Fengqing Jiang et al. (University of Washington), arXiv 2402.11753, 2024
 
 ---
@@ -86,15 +97,9 @@ ArtPrompt 的攻击分为两个步骤：
 
 ---
 
-## 5. 延伸阅读
+## 延伸阅读
 
-- 📄 论文原文 & 代码：[github.com/uw-nsl/ArtPrompt](https://github.com/uw-nsl/ArtPrompt)
-- 📊 ViTC 基准测试详细结果：论文 Section 3
-- 🧠 组合攻击思路：ArtPrompt 的编码策略 + GCG 的对抗后缀 → "编码过的对抗后缀"
-- 🛡️ 防御方向：论文明确指出，Vision-in-Text 识别能力需要**专门训练**，仅靠 prompt engineering 无法解决
-
----
-
-*本文基于 Fengqing Jiang et al. 的论文 *ArtPrompt: ASCII Art-based Jailbreak Attacks against Aligned LLMs* (arXiv 2402.11753) 编写，结合个人安全审计经验做了延伸分析。*
-
-— jnnysec
+- 论文原文 & 代码：[github.com/uw-nsl/ArtPrompt](https://github.com/uw-nsl/ArtPrompt)
+- ViTC 基准测试详细结果：论文 Section 3
+- 组合攻击思路：ArtPrompt 的编码策略 + GCG 的对抗后缀 → "编码过的对抗后缀"
+- 防御方向：论文明确指出，Vision-in-Text 识别能力需要**专门训练**，仅靠 prompt engineering 无法解决

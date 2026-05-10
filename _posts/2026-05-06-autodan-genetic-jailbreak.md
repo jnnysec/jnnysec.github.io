@@ -1,9 +1,22 @@
+---
+layout: default
+title: "AutoDAN：用遗传算法生成「读起来像人话」的越狱 Prompt — 绕困惑度检测像喝水一样简单"
+date: 2026-05-06
+author: "jnnysec"
+tags: ["LLM安全", "Jailbreak", "遗传算法", "困惑度绕过", "红队"]
+source: "AutoDAN: Generating Stealthy Jailbreak Prompts on Aligned Large Language Models, Liu et al., ICLR 2024"
+code: "https://github.com/SheltonLiu-N/AutoDAN"
+audience: "LLM 红队、AI 安全研究者"
+description: "拆解 AutoDAN 如何用遗传算法生成自然语言越狱 Prompt，并绕过基于困惑度的检测。"
+---
+
 # AutoDAN：用遗传算法生成「读起来像人话」的越狱 Prompt — 绕困惑度检测像喝水一样简单
 
-> **作者：** jnnysec  
-> **日期：** 2026-05-06  
-> **标签：** #LLM安全 #Jailbreak #遗传算法 #困惑度绕过 #红队  
-> **来源：** Liu et al., *AutoDAN: Generating Stealthy Jailbreak Prompts on Aligned Large Language Models*, ICLR 2024  
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-06<br>
+> **标签：** #LLM安全 #Jailbreak #遗传算法 #困惑度绕过 #红队<br>
+> **面向读者：** LLM 红队、AI 安全研究者<br>
+> **来源：** Liu et al., *AutoDAN: Generating Stealthy Jailbreak Prompts on Aligned Large Language Models*, ICLR 2024<br>
 > **代码：** [github.com/SheltonLiu-N/AutoDAN](https://github.com/SheltonLiu-N/AutoDAN)
 
 ---
@@ -112,13 +125,9 @@ AutoDAN 的 LLM 驱动变异让我想到一个趋势：**越狱攻击正在从�
 
 ---
 
-## 6. 延伸阅读
+## 延伸阅读
 
 - **AutoDAN 代码仓库**：[github.com/SheltonLiu-N/AutoDAN](https://github.com/SheltonLiu-N/AutoDAN)
 - **困惑度防御原文**：Jain et al., *Baseline Defenses for Adversarial Attacks Against Aligned Language Models* — 解释了为什么 PPL 过滤对 GCG 有效但对 AutoDAN 无效
 - **Garak 集成**：社区有讨论将 AutoDAN 作为 Garak 探针（Probe）集成，值得关注 —— 见上一篇文章 [Garak：LLM 世界的 nmap/Metasploit](https://jnnysec.github.io/articles/2026-05-05-garak-llm-vulnerability-scanner)
 - **相关攻击对比**：PAIR（用攻击 LLM 来迭代修改越狱 prompt）和 AutoDAN 思路互补——PAIR 用 LLM 做强化学习式探索，AutoDAN 用 GA 做群体搜索，两者结合可能更强
-
----
-
-> *下一篇预告：PyRIT — 微软开源的 AI 红队框架，看看大厂怎么系统化做 LLM 安全测试。*

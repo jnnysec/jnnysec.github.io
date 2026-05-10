@@ -1,10 +1,25 @@
+---
+layout: default
+title: "GCG：用梯度搜索让 LLM 自己「招供」——首个全自动越狱框架深度拆解"
+date: 2026-05-04
+author: "jnnysec"
+tags: ["Jailbreak", "Adversarial Attack", "LLM Safety", "Gradient-based Attack"]
+source: "Universal and Transferable Adversarial Attacks on Aligned Language Models, Zou et al., arXiv 2307.15043"
+paper: "https://arxiv.org/abs/2307.15043"
+code: "https://github.com/llm-attacks/llm-attacks"
+audience: "LLM 红队、安全研究员、对抗攻击学习者"
+description: "拆解 GCG 如何用梯度搜索自动生成可迁移越狱后缀，以及它为什么标志着 LLM 越狱自动化的转折点。"
+---
+
 # GCG：用梯度搜索让 LLM 自己「招供」——首个全自动越狱框架深度拆解
 
-> **作者：** jnnysec
-> **原文：** *Universal and Transferable Adversarial Attacks on Aligned Language Models*，Zou, Wang, Carlini, Nasr, Kolter, Fredrikson（CMU），arXiv:2307.15043
-> **论文：** https://arxiv.org/abs/2307.15043
+> **作者：** jnnysec<br>
+> **日期：** 2026-05-04<br>
+> **标签：** Jailbreak, Adversarial Attack, LLM Safety, Gradient-based Attack<br>
+> **面向读者：** LLM 红队、安全研究员、对抗攻击学习者<br>
+> **原文：** *Universal and Transferable Adversarial Attacks on Aligned Language Models*，Zou, Wang, Carlini, Nasr, Kolter, Fredrikson（CMU），arXiv:2307.15043<br>
+> **论文：** https://arxiv.org/abs/2307.15043<br>
 > **代码：** https://github.com/llm-attacks/llm-attacks
-> **标签：** Jailbreak, Adversarial Attack, LLM Safety, Gradient-based Attack
 
 ---
 
@@ -138,13 +153,9 @@ GCG 在 LLM 越狱领域做了完全相同的事——第一个全自动攻击�
 
 ---
 
-## 📚 延伸阅读
+## 延伸阅读
 
 - [llm-attacks 官方代码仓库](https://github.com/llm-attacks/llm-attacks) — CMU 开源实现，支持 Vicuna/Guanaco 等模型
 - [AutoDAN: Interpretable Gradient-Based Adversarial Attacks](https://arxiv.org/abs/2310.04451) — 用遗传算法做自动化越狱，GCG 之后的另一个重要范式
 - [Towards Deep Learning Models Resistant to Adversarial Attacks (Madry et al.)](https://arxiv.org/abs/1706.06083) — CV 领域对抗训练的经典论文，理解 GCG 为何「借鉴」CV 方法论
 - [Jailbroken: How Does LLM Safety Training Fail?](https://arxiv.org/abs/2307.02483) — 前文联动，理解越狱为什么能成功的理论根基
-
----
-
-*本文基于 CMU 团队的研究成果和个人的学习笔记整理而成。如果你也在从 Web 安全转向 AI 安全，欢迎通过 GitHub Issues 交流。*

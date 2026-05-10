@@ -3,4 +3,15 @@ description: Web安全 → AI Agent安全主攻Prompt Injection、Jailbreak、Ag
 author: jnnysec
 markdown: kramdown
 theme: null
-exclude: ["README.md"]
+plugins:
+  - jekyll-titles-from-headings
+titles_from_headings:
+  enabled: true
+  collections: true
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - .bundle/
+  - .jekyll-cache/
